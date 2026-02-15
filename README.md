@@ -2,7 +2,6 @@
 
 **Course:** Applied Machine Learning  
 **Institute:** Chennai Mathematical Institute  
-**Semester:** January 2025 – May 2025  
 **Student:** Arnab Bera (MDS202409)
 
 ---
