@@ -25,14 +25,17 @@ It also returns a probability score (propensity) between `0` and `1`.
 ```
 Assignment-03/
 │
-├── saved_models/
-│   ├── best_spam_classifier_model.pkl
-│   └── vectorizer.pkl
+├── app.py                
+├── score.py                
+├── predict.py              
+├── integration_test.py     
+├── test.py                 
 │
-├── score.py        # Core scoring logic
-├── app.py          # Flask REST API
-├── test.py         # Unit + Integration tests
-└── README.md
+├── coverage.txt            
+├── full_test.log          
+├── unit_test.log          
+│
+└── README.md               
 ```
 
 ---

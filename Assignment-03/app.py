@@ -1,45 +1,51 @@
-import os 
+import os
 import joblib
-from score import score
-import numpy as np 
-
 from flask import Flask, request, jsonify
-
-app=Flask(__name__)
-
-### Load the model and Vectorizer 
-MODEL_PATH=os.path.join("SAVED_MODELS","best_spam_classifier_model.pkl")
-VECTORIZER_PATH=os.path.join("SAVED_MODELS","tfidf_vectorizer.pkl")
-
-model=joblib.load(MODEL_PATH)
-vectorizer=joblib.load(VECTORIZER_PATH)
+from score import score
 
 
-def compute_socre(text,threshold=0.5):
-    features=vectorizer.transform([text])   
+def create_app():
+    app = Flask(__name__)
 
-    if hasattr(model, "predict_proba"):
-        propensity=model.predict_proba(features)[0][1]
-    else:
-        decision_score=model.decision_function(features)[0]
-        propensity=1/(1+np.exp(-decision_score))  ### convert to probability using sigmoid function
-    prediction=propensity>=threshold
-    return bool(prediction), float(propensity)
+    # Load model once when app is created
+    MODEL_PATH = os.path.join("SAVED_MODELS", "best_spam_classifier_model.pkl")
+    model = joblib.load(MODEL_PATH)
 
-@app.route("/score",methods=["POST"])
+    @app.route("/score", methods=["POST"])
+    def score_endpoint():
 
-def score_endpoint():
-    data=request.get_json()
+        # Check content type
+        if not request.is_json:
+            return jsonify({"error": "Invalid content type"}), 415
 
-    text=data.get("text", "")
-    threshold=data.get("threshold", 0.5)
+        data = request.get_json()
 
-    prediction, propensity=compute_socre(text,threshold)
+        # Validate text field
+        if "text" not in data:
+            return jsonify({"error": "Missing text field"}), 400
 
-    return jsonify({
-        "prediction": prediction,
-        "propensity": propensity
-    })
+        if not isinstance(data["text"], str):
+            return jsonify({"error": "Text must be string"}), 422
 
-if __name__=="__main__":
-    app.run(host="127.0.0.1",port=5000,debug=False)
+        threshold = data.get("threshold", 0.5)
+
+        if not isinstance(threshold, (int, float)):
+            return jsonify({"error": "Threshold must be number"}), 422
+
+        ### Call score function
+        prediction, propensity = score(data["text"], model, threshold)
+
+        return jsonify({
+            "prediction": prediction,
+            "propensity": propensity
+        })
+
+    return app
+
+
+# Create app instance for testing
+app = create_app()
+
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=5000, debug=False)
