@@ -94,3 +94,115 @@ In train.ipynb:
 6. Select the best model based on AUCPR  
 
 The goal is to demonstrate structured experiment tracking, model comparison, and model version management following industry best practices.
+
+# Assignment 3: Testing & Model Serving
+
+This assignment focuses on implementing **model scoring, unit testing, integration testing, and Flask-based model serving** for a trained machine learning model.
+
+---
+
+# 1. Score Function Implementation
+
+In `score.py`, implement a function that evaluates a trained model on a given text input.
+
+### Function Signature
+
+```python
+def score(text: str, model, threshold: float):
+```
+
+### Requirements
+
+The function should:
+
+- Accept a **text input**
+- Use a **trained sklearn model**
+- Apply a **classification threshold**
+- Return:
+  - **prediction** (boolean or binary output)
+  - **propensity score** (probability value)
+
+---
+
+# 2. Unit Testing
+
+In `test.py`, implement a **unit test function `test_score()`** to verify the correctness of the `score()` function.
+
+You may reload the **best trained model saved during experiments in `train.ipynb`** (saved in `.pkl` or `.joblib` format).
+
+### Test Cases to Consider
+
+The unit test should verify:
+
+- **Smoke Test**
+  - The function runs successfully without crashing.
+
+- **Format Test**
+  - The input and output formats/types are correct.
+
+- **Sanity Checks**
+  - Prediction value should be either **0 or 1**.
+  - Propensity score should be between **0 and 1**.
+
+- **Edge Cases**
+  - If threshold = **0**, prediction should always be **1**.
+  - If threshold = **1**, prediction should always be **0**.
+
+- **Typical Inputs**
+  - For an **obvious spam text**, prediction should be **1**.
+  - For an **obvious non-spam text**, prediction should be **0**.
+
+---
+
+# 3. Flask Model Serving
+
+In `app.py`, implement a **Flask API endpoint** to serve the model.
+
+### Endpoint
+
+```
+/score
+```
+
+### Requirements
+
+- Accept **POST requests**
+- Receive **text input**
+- Call the `score()` function
+- Return a **JSON response** containing:
+  - prediction
+  - propensity score
+
+---
+
+# 4. Integration Testing
+
+In `test.py`, implement an **integration test function `test_flask()`**.
+
+### Integration Test Requirements
+
+The test should:
+
+1. **Launch the Flask application** using a command line call (e.g., `os.system()`).
+2. **Send a request to the local endpoint** (`localhost`).
+3. **Validate the response** returned by the API.
+4. **Terminate the Flask application** after testing.
+
+---
+
+# 5. Coverage Report
+
+Generate a **coverage report** for both **unit tests and integration tests**.
+
+### Requirements
+
+- Use **pytest** to execute tests.
+- Generate a **coverage report**.
+- Save the output in a file named:
+
+```
+coverage.txt
+```
+
+---
+
