@@ -205,4 +205,77 @@ coverage.txt
 ```
 
 ---
+# Assignment-05: Transfer Learning
 
+## Problem Statement
+
+This assignment focuses on applying **Transfer Learning** techniques on both **image data (CNNs)** and **text data (Transformers)** to build robust classification models.
+
+The objective is to understand how pre-trained models can be fine-tuned for domain-specific tasks and evaluated using proper metrics.
+
+---
+
+## Part 1: Transfer Learning for Image Classification (CNN)
+
+### Task
+
+- Collect a custom dataset:
+  - ~100 images of **chickens**
+  - ~100 images of **ducks**
+
+- Build an image classification model using:
+  - A **pre-trained Convolutional Neural Network (CNN)** (e.g., ResNet)
+
+- Perform:
+  - Data preprocessing and augmentation  
+  - Train-validation-test split  
+  - Transfer learning (freeze base layers)  
+  - Fine-tuning (unfreeze deeper layers)
+
+- Evaluate the model using:
+  - **Classification Report** (Precision, Recall, F1-score)  
+  - **Confusion Matrix** (optional)
+
+---
+
+### Objective
+
+- Learn feature reuse from ImageNet-trained models  
+- Improve performance using fine-tuning  
+- Understand overfitting and generalization in CNNs  
+
+---
+
+### References
+
+- https://www.analyticsvidhya.com/blog/2021/07/step-by-step-guide-for-image-classification-on-custom-datasets/  
+- https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html  
+- https://www.learnpytorch.io/  
+
+---
+
+## Part 2: Transfer Learning for Text Classification (Transformers)
+
+### Task
+
+- Download dataset:
+  - Sentiment Analysis Dataset  
+  - https://www.kaggle.com/datasets/abhi8923shriv/sentiment-analysis-dataset  
+
+- Build a sentiment classifier to classify text into:
+  - **Positive**
+  - **Neutral**
+  - **Negative**
+
+- Use a pre-trained Transformer model (e.g., **BERT**)
+
+- Perform:
+  - Tokenization using HuggingFace Transformers  
+  - Fine-tuning on custom dataset  
+  - Model training and validation  
+
+- Evaluate using:
+  - **Classification Report**  
+  - Accuracy, Precision, Recall, F1-score  
+
+---
